@@ -1,6 +1,7 @@
 package webServiceTesting;
 
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import org.json.simple.JSONObject;
 
@@ -17,7 +18,7 @@ public class CreateUser {
         this.requestSpecification = RestAssured.given()
                 .baseUri("https://reqres.in/api")
                 .basePath("/users")
-                .contentType("application/json");
+                .contentType(ContentType.JSON);
     }
 
     public RequestSpecification getRequestSpecification() {

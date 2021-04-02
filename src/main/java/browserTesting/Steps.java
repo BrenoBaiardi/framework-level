@@ -13,6 +13,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -21,19 +22,16 @@ public class Steps {
     private WebDriver driver;
     Properties prop = new Properties();
 
-    @Before
-    public void beforeAll() throws IOException {
-        prop.load(new FileInputStream("src/test/resources/config.properties"));
-        System.setProperty("webdriver.chrome.driver", prop.getProperty("driver"));
-    }
 
     @After
-    public void afterAll() throws IOException {
+    public void afterAll() throws NullPointerException {
         driver.close();
     }
 
     @Given("^I open Chrome and launch the application$")
-    public void openChromeAndLaunchApplication() {
+    public void openChromeAndLaunchApplication() throws IOException {
+        prop.load(new FileInputStream("src/test/resources/config.properties"));
+        System.setProperty("webdriver.chrome.driver", prop.getProperty("driver"));
         driver = new ChromeDriver();
         driver.get("https://qa-automation-challenge.github.io/sandbox/");
     }

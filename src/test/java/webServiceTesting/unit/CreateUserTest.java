@@ -26,6 +26,7 @@ public class CreateUserTest {
 
   @Test
   public void buildBody_validUserAndJob_shouldReturnJsonWithUserAndJob() {
+    System.out.println(createUser.buildBody());
     Assert.assertEquals(jsonWithUserAndJob, createUser.buildBody());
   }
 
