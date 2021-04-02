@@ -39,7 +39,7 @@ public class CreateUser {
         JSONObject userJson = new JSONObject(map);
         this.requestSpecification = RestAssured.given()
                 .body(userJson);
-        return userJson.toJSONString();
+        return userJson.toString();
     }
 
     public String buildBodyWithSurname() {

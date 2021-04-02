@@ -1,6 +1,7 @@
 package browserTesting;
 
 
+import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -24,11 +25,16 @@ public class Steps {
     public void beforeAll() throws IOException {
         prop.load(new FileInputStream("src/test/resources/config.properties"));
         System.setProperty("webdriver.chrome.driver", prop.getProperty("driver"));
-        driver = new ChromeDriver();
+    }
+
+    @After
+    public void afterAll() throws IOException {
+        driver.close();
     }
 
     @Given("^I open Chrome and launch the application$")
     public void openChromeAndLaunchApplication() {
+        driver = new ChromeDriver();
         driver.get("https://qa-automation-challenge.github.io/sandbox/");
     }
 

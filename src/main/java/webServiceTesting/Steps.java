@@ -19,14 +19,6 @@ public class Steps {
     public Steps() throws MalformedURLException {
     }
 
-    @Given("I execute a get request$")
-    public void useGetRequestToBaseUri() {
-        Response response = RestAssured.get(BASE_URL);
-        System.out.println(response.getStatusCode());
-        System.out.println(response.getBody().toString());
-    }
-
-
     @Given("^I use user creation service$")
     public void useUserCreationWebService() {
         createUser = new CreateUser();
