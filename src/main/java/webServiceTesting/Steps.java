@@ -30,6 +30,6 @@ public class Steps {
     public void validateMyResponseIsCorrect() {
         given(createUser.getRequestSpecification())
                 .when().post()
-                .then().statusCode(200);
+                .then().statusCode(201);
     }
 }
