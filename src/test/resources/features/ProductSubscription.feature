@@ -6,4 +6,4 @@ Feature: Product Subscription
     And I select support plan "Full"
     And I write monthly duration of "6"
     When I click in calculate price button
-    Then I validate price is "2249.10$"
+    Then I validate price is "2249.10 $"
