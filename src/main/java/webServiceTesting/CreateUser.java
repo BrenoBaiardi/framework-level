@@ -1,6 +1,5 @@
 package webServiceTesting;
 
-import gherkin.deps.com.google.gson.JsonObject;
 import io.restassured.RestAssured;
 import io.restassured.specification.RequestSpecification;
 import org.json.simple.JSONObject;
@@ -17,7 +16,8 @@ public class CreateUser {
     public CreateUser() {
         this.requestSpecification = RestAssured.given()
                 .baseUri("https://reqres.in/api")
-                .basePath("/users");
+                .basePath("/users")
+                .contentType("application/json");
     }
 
     public RequestSpecification getRequestSpecification() {
