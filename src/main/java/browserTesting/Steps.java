@@ -23,11 +23,6 @@ public class Steps {
     Properties prop = new Properties();
 
 
-    @After
-    public void afterAll() throws NullPointerException {
-        driver.close();
-    }
-
     @Given("^I open Chrome and launch the application$")
     public void openChromeAndLaunchApplication() throws IOException {
         prop.load(new FileInputStream("src/test/resources/config.properties"));

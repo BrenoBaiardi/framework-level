@@ -11,6 +11,7 @@ import java.util.Map;
 public class CreateUser {
 
     private String name;
+    private String surName;
     private String job;
     private RequestSpecification requestSpecification;
 
@@ -33,14 +34,21 @@ public class CreateUser {
         this.job = job;
     }
 
+    public void setSurName(String surName) {
+        this.surName = surName;
+    }
+
     public String buildBody() {
         Map<String, Object> map = new HashMap<>();
         map.put("name", this.name);
         map.put("job", this.job);
         JSONObject userJson = new JSONObject(map);
-        this.requestSpecification = RestAssured.given()
-                .body(userJson);
-        return userJson.toString();
+        this.requestSpecification =
+                RestAssured.given().body(userJson.toJSONString())
+                        .baseUri("https://reqres.in/api")
+                        .basePath("/users")
+                        .contentType(ContentType.JSON);
+        return userJson.toJSONString();
     }
 
     public String buildBodyWithSurname() {
