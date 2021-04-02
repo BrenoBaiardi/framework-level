@@ -1,7 +1,6 @@
 Feature: User Management
 
   Scenario: Validate that it is possible to add a new user with a job
-    Given I execute a get request
     Given I use user creation service
     And I set name "Toy"
     And I set job "Singer"
