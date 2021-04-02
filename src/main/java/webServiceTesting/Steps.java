@@ -23,6 +23,8 @@ public class Steps {
 
   @When("^I set job \"([^\"]*)\"$")
   public void setJob(String job) {
+    createUser.setJob(job);
+    this.name = job;
   }
 
   @Then("^I validate my response is correct$")
