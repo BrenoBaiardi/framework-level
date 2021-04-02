@@ -1,51 +1,62 @@
 package browserTesting;
 
 
+import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 public class Steps {
 
-    WebDriver driver;
+    private WebDriver driver;
+    Properties prop = new Properties();
+
+    @Before
+    public void beforeAll() throws IOException {
+        prop.load(new FileInputStream("src/test/resources/config.properties"));
+        System.setProperty("webdriver.chrome.driver", prop.getProperty("driver"));
+        driver = new ChromeDriver();
+    }
 
     @Given("^I open Chrome and launch the application$")
-    public void openChromeAndLaunchApplication()
-    {}
+    public void openChromeAndLaunchApplication() {
+        driver.get("https://qa-automation-challenge.github.io/sandbox/");
+    }
 
     @When("^I select type \"(.*)\"$")
-    public void selectType(String type)
-    {
+    public void selectType(String type) {
         Select select = new Select(driver.findElement(By.id("type")));
         select.selectByVisibleText(type);
     }
 
     @When("^I select support plan \"(.*)\"$")
-    public void selectSupportPlan(String plan)
-    {
+    public void selectSupportPlan(String plan) {
         Select select = new Select(driver.findElement(By.id("support")));
         select.selectByVisibleText(plan);
     }
 
     @When("^I write monthly duration of \"(.*)\"$")
-    public void writeMonthlyDuration (String duration)
-    {
+    public void writeMonthlyDuration(String duration) {
         driver.findElement(By.id("duration")).sendKeys(duration);
     }
 
     @When("^I click in calculate price button")
-    public void clickCalculatePriceButton()
-    {
+    public void clickCalculatePriceButton() {
         driver.findElement(By.id("calculate")).click();
     }
 
     @Then("^I validate price is \"(.*)\"$")
-    public void	validatePrice(String price) throws InterruptedException {
-        Thread.sleep(5*1000);
+    public void validatePrice(String price) throws InterruptedException {
+        Thread.sleep(5000L);
         Assert.assertEquals(price, driver.findElement(By.id("price")).getText());
     }
 
