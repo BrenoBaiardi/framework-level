@@ -10,48 +10,63 @@ import java.util.Map;
 
 public class CreateUser {
 
+    private static final String BASE_URI = "https://reqres.in/api";
+    private static final String USERS_PATH = "/users";
     private String name;
     private String surName;
     private String job;
     private RequestSpecification requestSpecification;
 
     public CreateUser() {
-        this.requestSpecification = RestAssured.given()
-                .baseUri("https://reqres.in/api")
-                .basePath("/users")
+        requestSpecification = RestAssured.given()
+                .baseUri(BASE_URI)
+                .basePath(USERS_PATH)
                 .contentType(ContentType.JSON);
+        name = "";
+        job = "";
+        surName = "";
     }
 
-    public RequestSpecification getRequestSpecification() {
+    RequestSpecification getRequestSpecification() {
         return requestSpecification;
     }
 
-    public void setName(String name) {
+    public final void setName(final String name) {
         this.name = name;
     }
 
-    public void setJob(String job) {
+    public final void setJob(final String job) {
         this.job = job;
     }
 
-    public void setSurName(String surName) {
+    public void setSurName(final String surName) {
         this.surName = surName;
     }
 
-    public String buildBody() {
-        Map<String, Object> map = new HashMap<>();
-        map.put("name", this.name);
-        map.put("job", this.job);
-        JSONObject userJson = new JSONObject(map);
+    public JSONObject buildBody() {
+        JSONObject userJson = getJsonNameAndJob(this.name, this.job);
         this.requestSpecification =
                 RestAssured.given().body(userJson.toJSONString())
-                        .baseUri("https://reqres.in/api")
-                        .basePath("/users")
+                        .baseUri(BASE_URI)
+                        .basePath(USERS_PATH)
                         .contentType(ContentType.JSON);
-        return userJson.toJSONString();
+        return userJson;
     }
 
-    public String buildBodyWithSurname() {
-        return null;
+    public final JSONObject buildBodyWithSurname() {
+        final JSONObject userJson = getJsonNameAndJob(String.format("%s %s", this.name, this.surName), this.job);
+        this.requestSpecification =
+                RestAssured.given().body(userJson.toJSONString())
+                        .baseUri(BASE_URI)
+                        .basePath(USERS_PATH)
+                        .contentType(ContentType.JSON);
+        return userJson;
+    }
+
+    private JSONObject getJsonNameAndJob(final String name, final String job) {
+        final Map<String, Object> map = new HashMap<>();
+        map.put("name", name);
+        map.put("job", job);
+        return new JSONObject(map);
     }
 }
