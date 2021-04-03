@@ -1,6 +1,7 @@
 package webServiceTesting;
 
 import io.restassured.RestAssured;
+import io.restassured.authentication.PreemptiveBasicAuthScheme;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import org.json.simple.JSONObject;
@@ -15,12 +16,17 @@ public class CreateRegister {
     private RequestSpecification requestSpecification;
     private String email;
     private String password;
+    PreemptiveBasicAuthScheme authScheme;
 
     public CreateRegister() {
         this.requestSpecification = RestAssured.given()
                 .baseUri("https://reqres.in/api")
                 .basePath("/register")
                 .contentType(ContentType.JSON);
+        authScheme = new PreemptiveBasicAuthScheme();
+        authScheme.setUserName("challenge@automation.com");
+//        authScheme.setPassword("");
+        RestAssured.authentication = authScheme;
     }
 
     public RequestSpecification getRequestSpecification() {
