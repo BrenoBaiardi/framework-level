@@ -6,7 +6,7 @@ import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import org.json.simple.JSONObject;
 
-public class CreateRegister {
+public class RegisterUser {
 
     private static final String REGISTER_PATH = "/register";
 
@@ -16,19 +16,31 @@ public class CreateRegister {
     private String password;
     PreemptiveBasicAuthScheme authScheme;
 
-    public CreateRegister() {
+    /**
+     * Creates RequestSpecification and configures the parameters
+     * for sending the HTTPRequest and registering a user
+     */
+    public RegisterUser() {
         this.requestSpecification = RestAssured.given()
                 .baseUri("https://reqres.in/api")
                 .basePath("/register")
                 .contentType(ContentType.JSON);
     }
 
+    /**
+     * Builds and returns body message containing only the user name, discarding the password
+     * @return String - JSONString containing the user data
+     */
     private String createBodyNoPassword() {
         final JSONObject requestParams = new JSONObject();
         requestParams.put("email",  this.email);
         return requestParams.toJSONString();
     }
 
+    /**
+     * Sets the internal RequestSpecification with the authentication information and returns the result
+     * @return RequestSpecification - JSONString containing the user data
+     */
     RequestSpecification buildAuth() {
         this.requestSpecification =
                 RestAssured.given().auth()
@@ -41,11 +53,11 @@ public class CreateRegister {
     }
 
 
-    final void setEmail(String email) {
+    final void setEmail(final String email) {
         this.email = email;
     }
 
-    final void setPassword(String password) {
+    final void setPassword(final String password) {
         this.password = password;
     }
 }

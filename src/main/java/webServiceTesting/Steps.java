@@ -2,7 +2,6 @@ package webServiceTesting;
 
 
 import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.model.service.ReportFilterService;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -22,7 +21,7 @@ public class Steps {
 
     private static final String NOT_MISSING_PASSWORD = "The reason of the 400 Status code was not Missing password";
     private CreateUser createUser = null;
-    private CreateRegister createRegister = null;
+    private RegisterUser registerUser = null;
     private CustomExtentReporter reporter;
     private ExtentTest test = null;
 
@@ -46,7 +45,7 @@ public class Steps {
 
     @Given("^I use register creation service$")
     public final void useRegisterCreationWebService() {
-        createRegister = new CreateRegister();
+        registerUser = new RegisterUser();
     }
 
     @When("^I set name \"([^\"]*)\"$")
@@ -66,12 +65,12 @@ public class Steps {
 
     @When("^I set email to \"([^\"]*)\"$")
     public final void setEmail(final String email) {
-        createRegister.setEmail(email);
+        registerUser.setEmail(email);
     }
 
     @When("^I set password to \"([^\"]*)\"$")
     public final void setPassword(final String password) {
-        createRegister.setPassword(password);
+        registerUser.setPassword(password);
     }
 
     @When("^I build the request body$")
@@ -94,7 +93,7 @@ public class Steps {
 
     @Then("^I validate my submission response represents a failure$")
     public final void validateMyResponseIsFailure() {
-        final RequestSpecification request = given(createRegister.buildAuth());
+        final RequestSpecification request = given(registerUser.buildAuth());
         request.header("Content-Type", "application/json");
         test.info("Register specification created");
         final Response response = request.post();

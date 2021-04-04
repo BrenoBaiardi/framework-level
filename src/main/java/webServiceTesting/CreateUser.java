@@ -18,7 +18,8 @@ public class CreateUser {
     private RequestSpecification requestSpecification;
 
     /**
-     * Creates RequestSpecification and configures the parameters for sending the HTTPRequest
+     * Creates RequestSpecification and configures the parameters
+     * for sending the HTTPRequest and creating a user
      */
     public CreateUser() {
         requestSpecification = RestAssured.given()
@@ -31,7 +32,7 @@ public class CreateUser {
     }
 
     /**
-     * Returns previouly built RequestSpecification
+     * Returns previously built RequestSpecification
      * @return requestSpecification
      */
     RequestSpecification getRequestSpecification() {
