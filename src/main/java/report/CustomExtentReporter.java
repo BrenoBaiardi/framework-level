@@ -27,13 +27,13 @@ public class CustomExtentReporter {
         if (scenario != null) {
             switch (scenario.getStatus()) {
                 case PASSED:
-                    test = extentReports.createTest(getFeatureTitle(scenario)).pass("PASSED").createNode(getScenarioTitle(scenario));
+                    test = extentReports.createTest(getScenarioTitle(scenario)).pass("PASSED");
                     break;
                 case FAILED:
-                    test = extentReports.createTest(getFeatureTitle(scenario)).fail("FAILED").createNode(getScenarioTitle(scenario));
+                    test = extentReports.createTest(getScenarioTitle(scenario)).fail("FAILED");
                     break;
                 default:
-                    test = extentReports.createTest(getFeatureTitle(scenario)).skip("SKIPPED").createNode(getScenarioTitle(scenario));
+                    test = extentReports.createTest(getScenarioTitle(scenario)).skip("SKIPPED");
                     break;
             }
         }
