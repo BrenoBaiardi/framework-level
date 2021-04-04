@@ -6,9 +6,6 @@ import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import org.json.simple.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class CreateRegister {
 
     private static final String REGISTER_PATH = "/register";
@@ -24,25 +21,11 @@ public class CreateRegister {
                 .baseUri("https://reqres.in/api")
                 .basePath("/register")
                 .contentType(ContentType.JSON);
-        authScheme = new PreemptiveBasicAuthScheme();
-        authScheme.setUserName("challenge@automation.com");
-        RestAssured.authentication = authScheme;
-    }
-
-    public RequestSpecification getRequestSpecification() {
-        return requestSpecification.given();
     }
 
     private String createBodyNoPassword() {
         final JSONObject requestParams = new JSONObject();
         requestParams.put("email",  this.email);
-        return requestParams.toJSONString();
-    }
-
-    private String createBodyWithPassword() {
-        final JSONObject requestParams = new JSONObject();
-        requestParams.put("email",  this.email);
-        requestParams.put("password",  this.password);
         return requestParams.toJSONString();
     }
 
