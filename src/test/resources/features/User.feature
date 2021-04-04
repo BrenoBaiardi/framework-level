@@ -14,5 +14,5 @@ Feature: User Management
   Scenario: Validate the submission of a register without password
     Given I use register creation service
     And I set email to "challenge@automation.com"
-    And I set password to ""
+    And I set password to "123"
     Then I validate my submission response represents a failure
