@@ -17,6 +17,9 @@ public class CreateUser {
     private String job;
     private RequestSpecification requestSpecification;
 
+    /**
+     * Creates RequestSpecification and configures the parameters for sending the HTTPRequest
+     */
     public CreateUser() {
         requestSpecification = RestAssured.given()
                 .baseUri(BASE_URI)
@@ -27,6 +30,10 @@ public class CreateUser {
         surName = "";
     }
 
+    /**
+     * Returns previouly built RequestSpecification
+     * @return requestSpecification
+     */
     RequestSpecification getRequestSpecification() {
         return requestSpecification;
     }
@@ -43,26 +50,45 @@ public class CreateUser {
         this.surName = surName;
     }
 
+    /**
+     * Builds and returns body message containing the elements for creating a user
+     * @return JSONObject - JSONObject Representing the user
+     */
     public JSONObject buildBody() {
         JSONObject userJson = getJsonNameAndJob(this.name, this.job);
-        this.requestSpecification =
-                RestAssured.given().body(userJson.toJSONString())
-                        .baseUri(BASE_URI)
-                        .basePath(USERS_PATH)
-                        .contentType(ContentType.JSON);
+        setRequestSpecificationWithBody(userJson);
         return userJson;
     }
 
+    /**
+     * Builds and returns body message containing the elements for creating a user
+     * including the surname to the sent object
+     * @return JSONObject Representing the user
+     */
     public final JSONObject buildBodyWithSurname() {
         final JSONObject userJson = getJsonNameAndJob(String.format("%s %s", this.name, this.surName), this.job);
+        setRequestSpecificationWithBody(userJson);
+        return userJson;
+    }
+
+    /**
+     * sets the specified user information to the RequestSpecification
+     * @param userJson JSONObject conatining the user fields
+     */
+    private void setRequestSpecificationWithBody(JSONObject userJson){
         this.requestSpecification =
                 RestAssured.given().body(userJson.toJSONString())
                         .baseUri(BASE_URI)
                         .basePath(USERS_PATH)
                         .contentType(ContentType.JSON);
-        return userJson;
     }
 
+    /**
+     * Creates and returns JSONObject with "name" and "job" pairs of Key -> Value
+     * @param name user name
+     * @param job user job
+     * @return JSONObject from map of user name and job
+     */
     private JSONObject getJsonNameAndJob(final String name, final String job) {
         final Map<String, Object> map = new HashMap<>();
         map.put("name", name);
