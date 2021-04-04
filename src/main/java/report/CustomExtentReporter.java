@@ -16,13 +16,24 @@ public class CustomExtentReporter {
     private ExtentReports extentReports;
     private ExtentTest test;
 
-    public CustomExtentReporter(Path reportLocation) {
+    /**
+     * Customized ExtentReport class.<br>
+     * After the runs, the report is located in the given path in <i>reportLocation</i>
+     *
+     * @param reportLocation path to save the folder
+     */
+    public CustomExtentReporter(final Path reportLocation) {
         sparkReporter = new ExtentSparkReporter(reportLocation.toFile());
         extentReports = new ExtentReports();
         extentReports.attachReporter(sparkReporter);
     }
 
-
+    /**
+     * Creates test in ExtentReport
+     *
+     * @param scenario the current running Scenario
+     * @return ExtentTest - to allow insertions of more information to each test
+     */
     public ExtentTest createTest(Scenario scenario) {
         if (scenario != null) {
             switch (scenario.getStatus()) {
@@ -40,19 +51,30 @@ public class CustomExtentReporter {
         return test;
     }
 
+    /**
+     * Commits the current test results to ExtentReport
+     */
     public void writeToReport() {
         if (extentReports != null) {
             extentReports.flush();
         }
     }
 
+    /**
+     * returns the title of the given Scenario
+     *
+     * @param scenario the current running Scenario
+     */
     public String getScenarioTitle(Scenario scenario) {
         return scenario.getName();
     }
 
+    /**
+     * returns the title of the Feature given Scenario
+     *
+     * @param scenario the current running Scenario
+     */
     public String getFeatureTitle(Scenario scenario) {
         return Arrays.asList(scenario.getId().split("\\s*;\\s*")).get(0);
     }
-
-
 }
