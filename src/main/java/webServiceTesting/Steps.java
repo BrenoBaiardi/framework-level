@@ -4,8 +4,12 @@ package webServiceTesting;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
+import org.json.simple.JSONObject;
+import org.junit.Assert;
 
 import static io.restassured.RestAssured.*;
 
@@ -69,11 +73,12 @@ public class Steps {
 
     @Then("^I validate my submission response represents a failure$")
     public final void validateMyResponseIsFailure() {
-        given(createRegister.buildAuth())
-                .when()
-                .post()
-                .then()
-                .assertThat()
-                .statusCode(HttpStatus.SC_BAD_REQUEST);
+        RequestSpecification request = given(createRegister.buildAuth());
+        JSONObject requestParams = new JSONObject();
+        requestParams.put("email",  "sydney@fife");
+        request.body(requestParams.toJSONString());
+        request.header("Content-Type","application/json");
+        request.log().body();
+        request.post().then().statusCode(HttpStatus.SC_BAD_REQUEST).log().body();
     }
 }
